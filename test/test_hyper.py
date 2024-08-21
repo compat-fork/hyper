@@ -29,6 +29,12 @@ import zlib
 import brotli
 from io import BytesIO
 
+try:
+    from h2.settings import INITIAL_WINDOW_SIZE
+except ImportError:
+    from h2.settings import SettingCodes
+    INITIAL_WINDOW_SIZE = SettingCodes.INITIAL_WINDOW_SIZE
+
 TEST_DIR = os.path.abspath(os.path.dirname(__file__))
 TEST_CERTS_DIR = os.path.join(TEST_DIR, 'certs')
 CLIENT_PEM_FILE = os.path.join(TEST_CERTS_DIR, 'nopassword.pem')
@@ -766,7 +772,7 @@ class TestHyperConnection(object):
         # the default max frame size (16,384 bytes). That will, on the third
         # frame, trigger the processing to increment the flow control window,
         # which should then not happen.
-        f = SettingsFrame(0, settings={h2.settings.INITIAL_WINDOW_SIZE: 100})
+        f = SettingsFrame(0, settings={INITIAL_WINDOW_SIZE: 100})
 
         c = HTTP20Connection('www.google.com')
         c._sock = DummySocket()
