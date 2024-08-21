@@ -8,7 +8,7 @@ from hyperframe.frame import (
     WindowUpdateFrame, HeadersFrame, ContinuationFrame, GoAwayFrame,
     PingFrame, FRAME_MAX_ALLOWED_LEN
 )
-from hpack.hpack_compat import Encoder
+from hpack.hpack import Encoder
 from hyper.common.connection import HTTPConnection
 from hyper.http20.connection import HTTP20Connection
 from hyper.http20.response import HTTP20Response, HTTP20Push
@@ -28,6 +28,12 @@ import socket
 import zlib
 import brotli
 from io import BytesIO
+
+try:
+    from h2.settings import INITIAL_WINDOW_SIZE
+except ImportError:
+    from h2.settings import SettingCodes
+    INITIAL_WINDOW_SIZE = SettingCodes.INITIAL_WINDOW_SIZE
 
 TEST_DIR = os.path.abspath(os.path.dirname(__file__))
 TEST_CERTS_DIR = os.path.join(TEST_DIR, 'certs')
@@ -766,7 +772,7 @@ class TestHyperConnection(object):
         # the default max frame size (16,384 bytes). That will, on the third
         # frame, trigger the processing to increment the flow control window,
         # which should then not happen.
-        f = SettingsFrame(0, settings={h2.settings.INITIAL_WINDOW_SIZE: 100})
+        f = SettingsFrame(0, settings={INITIAL_WINDOW_SIZE: 100})
 
         c = HTTP20Connection('www.google.com')
         c._sock = DummySocket()
@@ -1660,7 +1666,7 @@ class DummySocket(object):
 
     sendall = send
 
-    def recv(self, l):
+    def recv(self, l):  # noqa: E741
         data = self._buffer.read(l)
         self._read_counter += len(data)
         return memoryview(data)

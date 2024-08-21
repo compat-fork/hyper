@@ -6,7 +6,7 @@ test_http20.py
 Unit tests for hyper's HTTP/2.0 implementation.
 """
 import pytest
-from mock import patch
+from unittest.mock import patch
 
 from server import SocketLevelTest
 

@@ -26,7 +26,6 @@ except AttributeError:
 
 # The HTTPConnection object is currently always the underlying one.
 HTTPConnection = httplib.HTTPConnection
-HTTPSConnection = httplib.HTTPSConnection
 
 # If we have NPN support, define our custom one, otherwise just use the
 # default.
@@ -114,3 +113,5 @@ if support_20:
             self._conn = tempconn
 
             return
+else:
+    HTTPSConnection = httplib.HTTPSConnection

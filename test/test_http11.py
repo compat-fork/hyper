@@ -12,7 +12,7 @@ import brotli
 from collections import namedtuple
 from io import BytesIO, StringIO
 
-import mock
+from unittest import mock
 import pytest
 
 import hyper
@@ -986,7 +986,7 @@ class DummySocket(object):
 
         self.queue.append(data)
 
-    def recv(self, l):
+    def recv(self, l):  # noqa: E741
         data = self._buffer.read(l)
         self._read_counter += len(data)
         return memoryview(data)
