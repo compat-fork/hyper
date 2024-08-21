@@ -12,7 +12,7 @@ import brotli
 from collections import namedtuple
 from io import BytesIO, StringIO
 
-import mock
+from unittest import mock
 import pytest
 
 import hyper

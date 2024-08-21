@@ -15,7 +15,7 @@ import hyper.http11.connection
 import pytest
 from socket import timeout as SocketTimeout
 from contextlib import contextmanager
-from mock import patch
+from unittest.mock import patch
 from concurrent.futures import ThreadPoolExecutor, TimeoutError
 from h2.frame_buffer import FrameBuffer
 from hyper.compat import ssl

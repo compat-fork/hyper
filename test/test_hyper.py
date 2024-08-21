@@ -8,7 +8,7 @@ from hyperframe.frame import (
     WindowUpdateFrame, HeadersFrame, ContinuationFrame, GoAwayFrame,
     PingFrame, FRAME_MAX_ALLOWED_LEN
 )
-from hpack.hpack_compat import Encoder
+from hpack.hpack import Encoder
 from hyper.common.connection import HTTPConnection
 from hyper.http20.connection import HTTP20Connection
 from hyper.http20.response import HTTP20Response, HTTP20Push
